@@ -1,6 +1,11 @@
 import { varchar, serial, integer, boolean } from "drizzle-orm/pg-core";
 import { pgTable } from "drizzle-orm/pg-core";
 
+export const GRADES = pgTable('grades', {
+    id: serial('id').primaryKey(),
+    grade: integer('grade').notNull(),
+})
+
 // Students Table
 export const STUDENTS = pgTable('students', {
     id: serial('id').primaryKey(),
