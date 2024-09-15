@@ -9,7 +9,6 @@ import moment from 'moment';
 import StatusList from './_components/StatusList';
 import Barchart from './_components/Barchart';
 import PieChartComponent from './_components/PieChartComponent';
-import ProfilePage from './profile/profile';
 function Dashboard() {
     const { setTheme } = useTheme();
     const [selectedMonth, setSelectedMonth] = useState();
@@ -54,7 +53,6 @@ function Dashboard() {
                     <PieChartComponent attendanceList={attendanceList}/>
                 </div>
             </div>
-            <ProfilePage/>
         </div>
     ) 
 }
