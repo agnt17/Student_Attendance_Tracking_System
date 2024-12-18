@@ -1,7 +1,7 @@
-"use client"
+"use client";
 
-import React, { useEffect, useState } from 'react'
-import { useTheme } from "next-themes"
+import React, { useEffect, useState } from 'react';
+import { useTheme } from "next-themes";
 import MonthSelection from '../_components/MonthSelection';
 import GradeSelect from '../_components/GradeSelect';
 import GlobalApi from '../_services/GlobalApi';
@@ -9,6 +9,7 @@ import moment from 'moment';
 import StatusList from './_components/StatusList';
 import Barchart from './_components/Barchart';
 import PieChartComponent from './_components/PieChartComponent';
+
 function Dashboard() {
     const { setTheme } = useTheme();
     const [selectedMonth, setSelectedMonth] = useState();
@@ -16,45 +17,47 @@ function Dashboard() {
     const [attendanceList, setAttendanceList] = useState();
     const [totalPresentData, setTotalPresentData] = useState([]);
 
-    useEffect(()=>{
+    useEffect(() => {
         setTheme('dark');
         GetTotalPresentCountByDay();
         getStudentAttendance();
-    }, [selectedMonth|| selectedGrade])
+    }, [selectedMonth || selectedGrade]);
 
     const getStudentAttendance = () => {
-        GlobalApi.GetAttendanceList(selectedGrade, moment(selectedMonth).format('MM/yyyy')).then((resp)=>{
-            setAttendanceList(resp.data );
-        })
-    }
+        GlobalApi.GetAttendanceList(selectedGrade, moment(selectedMonth).format('MM/yyyy')).then((resp) => {
+            setAttendanceList(resp.data);
+        });
+    };
 
-    const GetTotalPresentCountByDay=() => {
+    const GetTotalPresentCountByDay = () => {
         GlobalApi.TotalPresentCountByDay(moment(selectedMonth).format('MM/yyyy'), selectedGrade)
-        .then((resp)=>{
-            console.log(resp.data);
-            setTotalPresentData(resp.data);
-        })
-    }
+            .then((resp) => {
+                console.log(resp.data);
+                setTotalPresentData(resp.data);
+            });
+    };
+
     return (
-        <div className='p-10'>
-            <div className='flex items-center justify-between'>
-                <h2 className='font-bold text-2xl'>Dashboard</h2>
-                <div className='flex items-center gap-4'>
-                    <MonthSelection selectedMonth={setSelectedMonth}/>
-                    <GradeSelect selectedGrade={setSelectedGrade}/>
+        <div className='p-4 md:p-10'>
+            <div className='flex flex-col md:flex-row items-start md:items-center justify-between gap-4'>
+                <h2 className='font-bold text-xl md:text-2xl'>Dashboard</h2>
+                <div className="flex flex-col justify-center align-middle gap-2">
+                    <MonthSelection selectedMonth={setSelectedMonth} />
+                    <GradeSelect selectedGrade={setSelectedGrade} />
                 </div>
+
             </div>
-            <StatusList attendanceList={attendanceList}/>
-            <div className='grid grid-cols-1 md:grid-cols-3 gap-5 h-auto mt-5'>
+            <StatusList attendanceList={attendanceList} />
+            <div className='grid grid-cols-1 md:grid-cols-3 gap-4 h-auto mt-5'>
                 <div className='md:col-span-2'>
-                    <Barchart attendanceList={attendanceList} totalPresentData={totalPresentData}/>
+                    <Barchart attendanceList={attendanceList} totalPresentData={totalPresentData} />
                 </div>
                 <div>
-                    <PieChartComponent attendanceList={attendanceList}/>
+                    <PieChartComponent attendanceList={attendanceList} />
                 </div>
             </div>
         </div>
-    ) 
+    );
 }
 
-export default Dashboard
+export default Dashboard;
