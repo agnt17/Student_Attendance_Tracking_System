@@ -1,3 +1,4 @@
+"use client";
 import React, { useEffect, useState } from "react";
 import { AgGridReact } from "ag-grid-react"; // React Data Grid Component
 import "ag-grid-community/styles/ag-grid.css"; // Mandatory CSS required by the Data Grid
@@ -18,22 +19,20 @@ import {
 import { toast } from "sonner";
 import GlobalApi from "@/app/_services/GlobalApi";
 
-const pagination = true;
-const paginationPageSize = 10;
-const paginationPageSizeSelector = [25, 50, 100];
+
 
 function StudentListTable({ studentList, refreshData }) {
   // Function to handle Delete
   const DeleteRecord = (id) => {
     GlobalApi.DeleteStudentRecord(id)
-      .then(resp => {
+      .then((resp) => {
         if (resp) {
-          toast('Record Deleted Successfully');
+          toast("Record Deleted Successfully");
           // Trigger the refreshData callback to update the student list
           refreshData();
         }
       })
-      .catch(err => {
+      .catch((err) => {
         toast.error("Failed to delete the record");
       });
   };
@@ -86,28 +85,31 @@ function StudentListTable({ studentList, refreshData }) {
 
   return (
     <div className="my-7">
-      <div className="ag-theme-quartz-auto-dark" style={{ height: 500 }}>
-        {/* Search Input */}
-        <div className="p-2 rounded-lg border shadow-sm flex gap-2 mb-4 max-w-sm">
-          <Search />
-          <input
-            type="text"
-            placeholder="Search on Anything..."
-            className="outline-none w-full"
-            onChange={(event) => setSearchInput(event.target.value)}
-          />
-        </div>
+      {/* Search Box */}
+      <div className="p-2 rounded-lg border shadow-sm flex gap-2 mb-4 max-w-sm mx-auto sm:mx-0">
+        <Search />
+        <input
+          type="text"
+          placeholder="Search on Anything..."
+          className="outline-none w-full"
+          onChange={(event) => setSearchInput(event.target.value)}
+        />
+      </div>
 
-        {/* AG Grid Table */}
+      {/* AG Grid Table with Horizontal Scroll for Small Devices */}
+      <div className="ag-theme-quartz-auto-dark" style={{ height: 500, overflowX: "auto" }}>
         <AgGridReact
           rowData={rowData}
           columnDefs={colDefs}
-          quickFilterText={searchInput}
-          pagination={pagination}
-          paginationPageSize={paginationPageSize}
-          paginationPageSizeSelector={paginationPageSizeSelector}
         />
-      </div> 
+      </div>
+
+      {/* Pagination Controls (Hidden on Mobile) */}
+      <div className="hidden sm:block mt-4">
+        <div className="ag-pagination">
+          {/* Ag-Grid's default pagination controls */}
+        </div>
+      </div>
     </div>
   );
 }

@@ -6,9 +6,6 @@ import moment from "moment";
 import GlobalApi from "@/app/_services/GlobalApi";
 import { toast } from "sonner";
 
-const pagination = true;
-const paginationPageSize = 10;
-const paginationPageSizeSelector = [25, 50, 100];
 
 function AttendanceGrid({ attendanceList, selectedMonth, refreshData }) {
   const [rowData, setRowData] = useState();
@@ -92,9 +89,6 @@ function AttendanceGrid({ attendanceList, selectedMonth, refreshData }) {
           rowData={rowData}
           columnDefs={colDefs}
           onCellValueChanged={(e)=>onMarkAttendance(e.colDef.field, e.data.studentId, e.newValue)}
-          pagination={pagination}
-          paginationPageSize={paginationPageSize}
-          paginationPageSizeSelector={paginationPageSizeSelector}
         />
       </div>
     </div>

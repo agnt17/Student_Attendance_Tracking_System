@@ -14,7 +14,7 @@ import GlobalApi from "@/app/_services/GlobalApi";
 import { toast } from "sonner";
 import { LoaderIcon } from "lucide-react";
 
-function AddNewStudent({refreshData}) {
+function AddNewStudent({ refreshData }) {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const abortControllerRef = useRef(new AbortController()); // Reference to the AbortController
@@ -62,16 +62,27 @@ function AddNewStudent({refreshData}) {
       <Button className="text-white" onClick={() => setOpen(true)}>
         +Add New Student
       </Button>
-      <Dialog open={open}>
+      <Dialog open={open} onOpenChange={setOpen} className="m-8">
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Add New Student</DialogTitle>
+            <div className="flex justify-between items-center">
+              <DialogTitle>Add New Student</DialogTitle>
+              {/* Close Button */}
+              <button
+                type="button"
+                onClick={handleCancel}
+                className="text-gray-500 hover:text-gray-800"
+                aria-label="Close"
+              >
+                 {/* This is the "X" symbol */}
+              </button>
+            </div>
             <DialogDescription>
               <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="py-2">
                   <label>Full Name</label>
                   <Input
-                    placeholder="Ex. Akanksha Verma"
+                    placeholder="Enter Your Name"
                     {...register("name", { required: true })}
                   />
                 </div>
@@ -113,12 +124,12 @@ function AddNewStudent({refreshData}) {
 
                 <div className="py-2">
                   <label>Contact Number</label>
-                  <Input placeholder="Hint ? Arrange these 1234567890" {...register("contact")} />
+                  <Input placeholder="Enter your contact number" {...register("contact")} />
                 </div>
 
                 <div className="py-2">
                   <label>Address</label>
-                  <Input placeholder="Inside My ❤️" {...register("address")} />
+                  <Input placeholder="Enter Your Address..." {...register("address")} />
                 </div>
 
                 <div className="flex gap-3 items-center justify-end mt-5">

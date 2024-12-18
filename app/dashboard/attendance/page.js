@@ -74,7 +74,7 @@ function Attendance() {
       setError("Please select a grade before fetching attendance.");
       return;
     }
-    
+
     const month = moment(selectedMonth).format('MM/YYYY');  // Format month
     setLoading(true);  // Set loading state
 
@@ -109,10 +109,13 @@ function Attendance() {
 
       {/* Flex container for alignment */}
       <div className="flex items-center gap-4 border rounded-lg shadow p-2">
-        <MonthSelection selectedMonth={(value) => setSelectedMonth(value)} />
-        <GradeSelect selectedGrade={(v) => setSelectedGrade(v)} />
+        <div className="flex flex-col sm:flex-row gap-2 sm:gap-4">
+          <MonthSelection selectedMonth={(value) => setSelectedMonth(value)} />
+          <GradeSelect selectedGrade={(v) => setSelectedGrade(v)} />
+        </div>
         <Button onClick={onSearchHandler} disabled={loading}>Search</Button>
       </div>
+
 
       {loading && <p>Loading attendance data...</p>}
       {error && <p className="text-red-600">{error}</p>}
